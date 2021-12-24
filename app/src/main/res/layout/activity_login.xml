@@ -16,6 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20dp"
+            android:src="@drawable/ic_upi" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,20 +31,7 @@
             android:textColor="@color/teal_700"
             android:textSize="30dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Use your fingerprint to login"
-            android:textColor="@color/teal_200"
-            android:textSize="18sp" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginVertical="20dp"
-            android:src="@drawable/ic_baseline_fingerprint_24" />
 
         <TextView
             android:id="@+id/msgtext"
@@ -59,6 +53,7 @@
             android:focusable="false"
             android:hint="User ID"
             android:inputType="number"
+            android:textColorHint="@color/black"
             android:padding="15dp"
             android:textColor="@color/black" />
 
@@ -73,6 +68,7 @@
             android:drawablePadding="5dp"
             android:hint="Password"
             android:inputType="textPassword"
+            android:textColorHint="@color/black"
             android:padding="15dp"
             android:textColor="@color/black" />
 
@@ -85,6 +81,22 @@
             android:layout_margin="5dp"
             android:text="Login"
             android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Use your fingerprint to login"
+            android:textColor="@color/teal_200"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/biomat_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20dp"
+            android:src="@drawable/ic_baseline_fingerprint_24" />
 
         <TextView
             android:id="@+id/reg_text"

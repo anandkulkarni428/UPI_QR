@@ -8,12 +8,19 @@
     tools:context=".Activity.MainActivity">
 
     <LinearLayout
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_upi" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,11 +35,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/teal_200"
-            android:textSize="18sp"
             android:drawableLeft="@drawable/ic_baseline_person_pin_24"
             android:drawablePadding="10dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textColor="@color/teal_200"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
@@ -46,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/title_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,127 +72,101 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:id="@+id/amount_fifty"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="50" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:id="@+id/amount_hundred"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:id="@+id/amount_two_hundred"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="200" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:id="@+id/amount_five_hundred"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="500" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:id="@+id/amount_thousand"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1000" />
             </com.google.android.material.chip.ChipGroup>
 
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/amount_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@drawable/rec"
-                android:textColorHint="@color/black"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp">
+                android:clickable="false"
+                android:drawableStart="@drawable/ic_receipt_rupee"
+                android:drawablePadding="5dp"
+                android:hint="Amount"
+                android:inputType="number"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/amount_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Amount"
-                    android:inputType="number"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/purple_700" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/upi_id_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@drawable/rec"
-                android:textColorHint="@color/black"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp">
+                android:clickable="false"
+                android:drawableStart="@drawable/ic_upi"
+                android:drawablePadding="5dp"
+                android:hint="UPI ID"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/upi_id_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="UPI ID"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/purple_700" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/first_name_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@drawable/rec"
-                android:textColorHint="@color/black"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp">
+                android:clickable="false"
+                android:drawableStart="@drawable/ic_name_id"
+                android:drawablePadding="5dp"
+                android:hint="First Name"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/first_name_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="First Name"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/purple_700" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/last_name_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@drawable/rec"
-                android:textColorHint="@color/black"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/last_name_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Last Name"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/purple_700" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:clickable="false"
+                android:drawableStart="@drawable/ic_name_id"
+                android:drawablePadding="5dp"
+                android:hint="Last Name"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
 
             <Button
@@ -194,7 +175,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:text="Generate QR Code"
+                android:drawableRight="@drawable/ic_baseline_qr_code_2_24"
+                android:text="Generate "
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -204,13 +186,13 @@
         android:id="@+id/history_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_baseline_history_edu_24"
+        android:src="@drawable/ic_downtime"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
+        app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.264" />
+        app:layout_constraintVertical_bias="0.071" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

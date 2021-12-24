@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="10dp"
         android:background="@drawable/rec">
 
         <LinearLayout
@@ -26,7 +26,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:srcCompat="@drawable/ic_next"
                 android:layout_gravity="center" />
         </LinearLayout>
         <LinearLayout
