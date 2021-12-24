@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView regTxt, msgtex;
     EditText userIdTxt, passwordTxt;
     Button userLogBtn;
+    ImageView bioMatImg;
     SharedPreferences sP;
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String UserId = "phoneKey";
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         regTxt = findViewById(R.id.reg_text);
         msgtex = findViewById(R.id.msgtext);
         userLogBtn = findViewById(R.id.login_btn);
+        bioMatImg = findViewById(R.id.biomat_img);
 
         sP = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         getUserId = sP.getString(UserId, "");
@@ -59,6 +62,13 @@ public class LoginActivity extends AppCompatActivity {
             userIdTxt.setText(getUserId);
 
         bioProp();
+
+        bioMatImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bioProp();
+            }
+        });
 
         androidx.biometric.BiometricManager biometricManager;
         biometricManager = androidx.biometric.BiometricManager.from(this);
@@ -140,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         // creating a variable for our promptInfo
         // BIOMETRIC DIALOG
-        final BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("UPI QR").setSubtitle("Easy things")
+        final BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("UPI QR").setSubtitle("Easy Access")
                 .setDescription("Use your fingerprint to login ").setNegativeButtonText("Cancel").build();
         biometricPrompt.authenticate(promptInfo);
     }

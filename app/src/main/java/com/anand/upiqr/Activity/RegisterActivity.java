@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    TextInputEditText firstNameTxt, lastNametxt, userIdTxt, passwordTxt,upiIdTxt;
+    EditText firstNameTxt, lastNametxt, userIdTxt, passwordTxt,upiIdTxt;
     TextView logTxt;
     Button userRegBtn;
 
