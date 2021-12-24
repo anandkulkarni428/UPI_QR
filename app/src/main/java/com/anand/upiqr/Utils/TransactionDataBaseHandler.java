@@ -43,7 +43,7 @@ public class TransactionDataBaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addTransaction(Transaction transaction) {
+    public void addTransaction(Transaction transaction) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_TRANS_ID, transaction.getTransactionId());
@@ -86,10 +86,10 @@ public class TransactionDataBaseHandler extends SQLiteOpenHelper {
                 Transaction transaction = new Transaction();
                 transaction.setId(Integer.parseInt(cursor.getString(0)));
                 transaction.setTransactionId(cursor.getString(1));
-                transaction.setTransactionId(cursor.getString(2));
-                transaction.setTransactionId(cursor.getString(3));
-                transaction.setTransactionId(cursor.getString(4));
-                transaction.setTransactionId(cursor.getString(5));
+                transaction.setFirstName(cursor.getString(2));
+                transaction.setLastName(cursor.getString(3));
+                transaction.setUpiId(cursor.getString(4));
+                transaction.setAmount(cursor.getString(5));
 
                 transactions.add(transaction);
             } while (cursor.moveToNext());
@@ -122,7 +122,7 @@ public class TransactionDataBaseHandler extends SQLiteOpenHelper {
         String countQuery = "SELECT  * FROM " + TABLE_TRANSACTIONS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
+//        cursor.close();
 
         // return count
         return cursor.getCount();

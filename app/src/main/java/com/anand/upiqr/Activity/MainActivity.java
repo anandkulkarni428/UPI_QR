@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.anand.upiqr.R;
+import com.anand.upiqr.Utils.Transaction;
+import com.anand.upiqr.Utils.TransactionDataBaseHandler;
 import com.anand.upiqr.databinding.ActivityMainBinding;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,15 +29,21 @@ public class MainActivity extends AppCompatActivity {
     public static final String FirstName = "firstNameKey";
     public static final String LastName = "lastNameKey";
     public static final String UPI_Id = "UPI_Key";
+    public static final String UserId = "phoneKey";
+    public static String getUserId = "";
     public static String getFirstName = "";
     public static String getLastName = "";
     public static String getUPI_Id = "";
+    public static String getAmount = "";
+    TransactionDataBaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        db = new TransactionDataBaseHandler(this);
 
         qrBtn = findViewById(R.id.qr_btn);
 
@@ -46,12 +56,14 @@ public class MainActivity extends AppCompatActivity {
         getFirstName = sP.getString(FirstName, "");
         getLastName = sP.getString(LastName, "");
         getUPI_Id = sP.getString(UPI_Id, "");
+        getUserId = sP.getString(UserId, "");
 
         firstNameTxt.setText(getFirstName);
         lastNameTxt.setText(getLastName);
         upiIdTxt.setText(getUPI_Id);
         upiIdTxt.setClickable(false);
         upiIdTxt.setEnabled(false);
+        binding.userIdText.setText(getUserId);
 
 
         binding.amountChip.setOnCheckedChangeListener((group, i) -> {
@@ -65,9 +77,15 @@ public class MainActivity extends AppCompatActivity {
                 }
         });
 
+        binding.historyBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this,TransactionHistoryActivity.class);
+            startActivity(intent);
+        });
+
 
         qrBtn.setOnClickListener(v -> {
             if (!Objects.requireNonNull(amountTxt.getText()).toString().isEmpty()) {
+                getAmount = amountTxt.getText().toString();
                 sendData();
             } else {
                 Toast.makeText(MainActivity.this, "Please enter the amount", Toast.LENGTH_SHORT).show();
@@ -82,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("FIRST_NAME", Objects.requireNonNull(firstNameTxt.getText()).toString());
         intent.putExtra("LAST_NAME", Objects.requireNonNull(lastNameTxt.getText()). toString());
         intent.putExtra("TRANS_ID", generateTransId());
+        saveToDB();
         startActivity(intent);
     }
 
@@ -91,4 +110,17 @@ public class MainActivity extends AppCompatActivity {
 
         return trans_id;
     }
+
+    public void saveToDB(){
+        Transaction transaction = new Transaction();
+        transaction.setTransactionId(generateTransId());
+        transaction.setFirstName(firstNameTxt.getText().toString());
+        transaction.setLastName(lastNameTxt.getText(). toString());
+        transaction.setUpiId(upiIdTxt.getText(). toString());
+        transaction.setAmount(getAmount);
+        Log.d("TAG",transaction.getTransactionId()+transaction.getFirstName()+transaction.getLastName()+transaction.getUpiId()+transaction.getAmount());
+        db.addTransaction(transaction);
+    }
+
+
 }
