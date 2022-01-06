@@ -2,11 +2,12 @@ package com.anand.upiqr.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +17,6 @@ import com.anand.upiqr.Utils.Transaction;
 import com.anand.upiqr.Utils.TransactionDataBaseHandler;
 import com.anand.upiqr.databinding.ActivityMainBinding;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     EditText amountTxt, upiIdTxt, firstNameTxt, lastNameTxt;
     Button qrBtn;
     ActivityMainBinding binding;
+    AnimatedVectorDrawable animatedVectorDrawable;
 
     SharedPreferences sP;
     public static final String MyPREFERENCES = "MyPrefs";
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         upiIdTxt.setEnabled(false);
         binding.userIdText.setText(getUserId);
 
+        runAnimation();
+
 
         binding.amountChip.setOnCheckedChangeListener((group, i) -> {
             Chip chip = binding.amountChip.findViewById(i);
@@ -74,12 +77,12 @@ public class MainActivity extends AppCompatActivity {
                     amountTxt.setText(chip.getText());
                     Toast.makeText(getApplicationContext(), "Amount is " + chip.getText(), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Amount is 0 " , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Amount is 0 ", Toast.LENGTH_SHORT).show();
                 }
         });
 
         binding.historyBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this,TransactionHistoryActivity.class);
+            Intent intent = new Intent(MainActivity.this, TransactionHistoryActivity.class);
             startActivity(intent);
         });
 
@@ -99,29 +102,45 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("AMOUNT", Objects.requireNonNull(amountTxt.getText()).toString());
         intent.putExtra("UPI_ID", Objects.requireNonNull(upiIdTxt.getText()).toString());
         intent.putExtra("FIRST_NAME", Objects.requireNonNull(firstNameTxt.getText()).toString());
-        intent.putExtra("LAST_NAME", Objects.requireNonNull(lastNameTxt.getText()). toString());
+        intent.putExtra("LAST_NAME", Objects.requireNonNull(lastNameTxt.getText()).toString());
         intent.putExtra("TRANS_ID", generateTransId());
         saveToDB();
         startActivity(intent);
     }
 
-    public String generateTransId(){
+    public String generateTransId() {
 
-        String trans_id = "UPIQR"+System.currentTimeMillis();
-
-        return trans_id;
+        return getString(R.string.upi_qr) + System.currentTimeMillis();
     }
 
-    public void saveToDB(){
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void runAnimation() {
+        animatedVectorDrawable =
+                (AnimatedVectorDrawable) getDrawable(R.drawable.avd_anim_upi);
+        binding.titleLogo.setImageDrawable(animatedVectorDrawable);
+        animatedVectorDrawable.start();
+    }
+
+    public void saveToDB() {
         Transaction transaction = new Transaction();
         transaction.setTransactionId(generateTransId());
         transaction.setFirstName(firstNameTxt.getText().toString());
-        transaction.setLastName(lastNameTxt.getText(). toString());
-        transaction.setUpiId(upiIdTxt.getText(). toString());
+        transaction.setLastName(lastNameTxt.getText().toString());
+        transaction.setUpiId(upiIdTxt.getText().toString());
         transaction.setAmount(getAmount);
-        Log.d("TAG",transaction.getTransactionId()+transaction.getFirstName()+transaction.getLastName()+transaction.getUpiId()+transaction.getAmount());
+        Log.d("TAG", transaction.getTransactionId() + transaction.getFirstName() + transaction.getLastName() + transaction.getUpiId() + transaction.getAmount());
         db.addTransaction(transaction);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        runAnimation();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        animatedVectorDrawable.stop();
+    }
 }
