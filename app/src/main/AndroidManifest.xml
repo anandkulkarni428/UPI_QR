@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anand.upiqr">
 
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_upi"
@@ -10,6 +13,9 @@
         android:roundIcon="@drawable/ic_upi"
         android:supportsRtl="true"
         android:theme="@style/Theme.UPIQR">
+        <activity
+            android:name=".Activity.HomeActivity"
+            android:exported="true" />
         <activity
             android:name=".Activity.TransactionHistoryActivity"
             android:exported="true" />

@@ -48,15 +48,15 @@
 
 
         <EditText
-            android:id="@+id/last_name_text"
+            android:id="@+id/merchant_name_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:background="@drawable/rec"
             android:clickable="false"
-            android:drawableStart="@drawable/ic_name_id"
+            android:drawableStart="@drawable/ic_baseline_business_24"
             android:drawablePadding="5dp"
-            android:hint="Last Name"
+            android:hint="Merchant Name"
             android:padding="15dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black" />
