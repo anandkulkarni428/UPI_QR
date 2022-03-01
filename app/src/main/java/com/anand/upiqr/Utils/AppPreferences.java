@@ -38,8 +38,8 @@ public class AppPreferences {
     public static class Key {
         public static final String TOKEN = "access_token";
         public static final String LOGGED = "user_logged_in";
-        public static final String MORE_DETAILS = "user_more_details";
-        public static final String EDU_DETAILS = "user_edu_details";
+        public static final String USER_ID = "user_id_details";
+        public static final String PRIMARY_UPI = "primary_upi_details";
         public static final String NOTI_TOKEN = "notification_token";
 
     }

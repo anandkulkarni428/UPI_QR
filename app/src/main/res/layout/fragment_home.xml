@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/secondaryColor"
+        android:orientation="vertical">
+
 
         <LinearLayout
             android:id="@+id/title_layout"
@@ -23,43 +24,33 @@
 
             <ImageView
                 android:id="@+id/title_logo"
-                android:layout_width="100dp"
+                android:layout_width="200dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/avd_anim_upi" />
+                android:src="@drawable/ic_undraw_welcome" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="UPI QR"
-                android:textColor="@color/teal_700"
-                android:textSize="30dp" />
-
-            <TextView
-                android:id="@+id/user_id_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableLeft="@drawable/ic_baseline_person_pin_24"
-                android:drawablePadding="10dp"
+                android:layout_margin="10dp"
                 android:gravity="center"
-                android:textColor="@color/teal_200"
-                android:textSize="18sp" />
+                android:text="Generate a transaction!"
+                android:textColor="@color/primaryColor"
+                android:textSize="30dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.sinaseyfi.advancedcardview.AdvancedCardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_height="match_parent"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_layout">
+            app:cornerRadius_TopLeft="50dp"
+            app:cornerRadius_TopRight="50dp"
+            app:cardElevation="10dp"
+            app:corner_Type="rectangular"
+            android:layout_marginTop="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,46 +73,51 @@
                         style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="50" />
+                        android:text="50"
+                        app:chipBackgroundColor="@color/primaryColor" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/amount_hundred"
                         style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100" />
+                        android:text="100"
+                        app:chipBackgroundColor="@color/primaryColor" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/amount_two_hundred"
                         style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200" />
+                        android:text="200"
+                        app:chipBackgroundColor="@color/primaryColor" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/amount_five_hundred"
                         style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="500" />
+                        android:text="500"
+                        app:chipBackgroundColor="@color/primaryColor" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/amount_thousand"
                         style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1000" />
+                        android:text="1000"
+                        app:chipBackgroundColor="@color/primaryColor" />
                 </com.google.android.material.chip.ChipGroup>
 
 
                 <EditText
                     android:id="@+id/amount_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/rec"
                     android:clickable="false"
-                    android:drawableStart="@drawable/ic_receipt_rupee"
+                    android:drawableStart="@drawable/ic_undraw_transfer"
                     android:drawablePadding="5dp"
                     android:hint="Amount"
                     android:inputType="number"
@@ -133,7 +129,7 @@
                 <EditText
                     android:id="@+id/upi_id_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/rec"
                     android:clickable="false"
@@ -148,7 +144,7 @@
                 <EditText
                     android:id="@+id/received_form_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/rec"
                     android:clickable="false"
@@ -163,33 +159,31 @@
                 <EditText
                     android:id="@+id/notes_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="100dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/rec"
                     android:clickable="false"
-                    android:drawableStart="@drawable/ic_name_id"
-                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_undraw_notes"
+                    android:drawablePadding="1dp"
                     android:hint="Notes"
-                    android:padding="15dp"
+                    android:padding="10dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black" />
 
 
                 <Button
                     android:id="@+id/qr_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:drawableRight="@drawable/ic_baseline_qr_code_2_24"
-                    android:text="Generate "
-                    android:textColor="@color/white" />
+                    android:text="Generate"
+                    android:textColor="@color/black"
+                    android:background="@drawable/btn" />
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
+        </com.sinaseyfi.advancedcardview.AdvancedCardView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </FrameLayout>

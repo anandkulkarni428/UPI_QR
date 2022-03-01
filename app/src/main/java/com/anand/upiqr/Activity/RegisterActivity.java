@@ -33,20 +33,13 @@ import retrofit2.Retrofit;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText firstNameTxt, merchantNametxt, userIdTxt, passwordTxt,upiIdTxt;
+    EditText firstNameTxt, merchantNametxt, userIdTxt, passwordTxt, upiIdTxt;
     TextView logTxt;
     Button userRegBtn;
 
     ApiInterface apiInterface;
     ConnectionChecking checking;
 
-    SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
-    public static final String FirstName = "firstNameKey";
-    public static final String LastName = "lastNameKey";
-    public static final String UserId = "phoneKey";
-    public static final String UPI_Id = "UPI_Key";
-    public static final String Password = "passwordKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +55,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         checking = new ConnectionChecking();
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         logTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -131,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                         //MAIN LOGIN
                         String tocken = response.body().get("token").getAsString();
 
-                        if (tocken.isEmpty()){
+                        if (tocken.isEmpty()) {
                             dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE);
                             dialog.setTitle("Error!");
                             dialog.setContentText(response.body().get("message").getAsString());
@@ -191,15 +183,4 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    public void sharedPref(String fName, String lName, String userId, String userPass,String UPIId) {
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-
-        editor.putString(FirstName, fName);
-        editor.putString(LastName, lName);
-        editor.putString(UserId, userId);
-        editor.putString(Password, userPass);
-        editor.putString(UPI_Id, UPIId);
-        editor.commit();
-        Toast.makeText(RegisterActivity.this, "Registered Successfully!", Toast.LENGTH_LONG).show();
-    }
 }

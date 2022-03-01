@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Switch;
 
+import com.anand.upiqr.Fragments.AboutMeFragment;
 import com.anand.upiqr.Fragments.HistoryFragment;
 import com.anand.upiqr.Fragments.HomeFragment;
 import com.anand.upiqr.Fragments.ProfileFragment;
@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,15 +25,17 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setItemIconTintList(null);
     }
 
     HomeFragment homeFragment = new HomeFragment();
     HistoryFragment historyFragment = new HistoryFragment();
     ProfileFragment profileFragment = new ProfileFragment();
+    AboutMeFragment aboutMeFragment = new AboutMeFragment();
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, homeFragment).commit();
@@ -43,6 +46,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, profileFragment).commit();
+                return true;
+            case R.id.about_me:
+                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, aboutMeFragment).commit();
                 return true;
         }
         return false;

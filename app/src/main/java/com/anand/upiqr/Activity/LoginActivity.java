@@ -20,23 +20,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anand.upiqr.Interface.ApiInterface;
 import com.anand.upiqr.R;
+import com.anand.upiqr.Utils.AppPreferences;
+import com.anand.upiqr.Utils.ConnectionChecking;
+import com.anand.upiqr.Utils.HttpHelpers;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.concurrent.Executor;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
     TextView regTxt, msgtex;
     EditText userIdTxt, passwordTxt;
     Button userLogBtn;
     ImageView bioMatImg;
-    SharedPreferences sP;
-    public static final String MyPREFERENCES = "MyPrefs";
-    public static final String UserId = "phoneKey";
-    public static final String Password = "passwordKey";
-    public static String getUserId = "";
-    public static String getPassword = "";
+
+    ApiInterface apiInterface;
+    ConnectionChecking checking;
 
 
     @Override
@@ -48,20 +60,15 @@ public class LoginActivity extends AppCompatActivity {
         userIdTxt = findViewById(R.id.user_id_text);
         passwordTxt = findViewById(R.id.password_text);
         regTxt = findViewById(R.id.reg_text);
-        msgtex = findViewById(R.id.msgtext);
         userLogBtn = findViewById(R.id.login_btn);
         bioMatImg = findViewById(R.id.biomat_img);
 
-        sP = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        getUserId = sP.getString(UserId, "");
-        getPassword = sP.getString(Password, "");
+        checking = new ConnectionChecking();
 
-        Log.d("TAG", getUserId + getPassword);
+//        if (getUserId != null)
+//            userIdTxt.setText(getUserId);
 
-        if (getUserId != null)
-            userIdTxt.setText(getUserId);
-
-        bioProp();
+//        bioProp();
 
         bioMatImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,8 +83,6 @@ public class LoginActivity extends AppCompatActivity {
 
             // this means we can use biometric sensor
             case BiometricManager.BIOMETRIC_SUCCESS:
-                msgtex.setText("You can use the fingerprint sensor to login");
-                msgtex.setTextColor(Color.parseColor("#fafafa"));
                 break;
 
             // this means that the device doesn't have fingerprint sensor
@@ -101,15 +106,30 @@ public class LoginActivity extends AppCompatActivity {
         userLogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Objects.requireNonNull(userIdTxt.getText()).toString().isEmpty() || !userIdTxt.getText().toString().equals(getUserId)) {
-                    Toast.makeText(LoginActivity.this, "Please enter correct user id!", Toast.LENGTH_SHORT).show();
-                } else if (Objects.requireNonNull(passwordTxt.getText()).toString().isEmpty() || !passwordTxt.getText().toString().equals(getPassword)) {
-                    Toast.makeText(LoginActivity.this, "Please enter correct password!", Toast.LENGTH_SHORT).show();
+                if (checking.isConnectingToInternet(LoginActivity.this)) {
+
+//                    if (validation.validate()) {
+
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("user_id", userIdTxt.getText().toString().trim());
+                        jsonObject.put("password", passwordTxt.getText().toString().trim());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    loginUser(jsonObject);
+//                    }
+
                 } else {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                    startActivity(intent);
+                    SweetAlertDialog dialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                    dialog.setCancelable(false);
+                    dialog.setTitle("Network Error");
+                    dialog.setContentText("Please check Your Network Connection");
+                    dialog.setConfirmText("OK");
+                    dialog.setConfirmClickListener(null);
+                    dialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    dialog.show();
                 }
             }
         });
@@ -119,6 +139,88 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+    }
+
+    private void loginUser(JSONObject userData) {
+        final SweetAlertDialog dialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        dialog.setTitle("Loading...");
+        dialog.setCancelable(false);
+        dialog.show();
+
+        JsonObject userObj = new JsonParser().parse(userData.toString()).getAsJsonObject();
+        Retrofit retrofit = HttpHelpers.getInstance();
+        apiInterface = retrofit.create(ApiInterface.class);
+
+        Call<JsonObject> userCall = apiInterface.loginUser(userObj);
+        userCall.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, final Response<JsonObject> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        //MAIN LOGIN
+                        String tocken = response.body().get("token").getAsString();
+
+                        if (tocken.isEmpty()) {
+                            dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE);
+                            dialog.setTitle("Error!");
+                            dialog.setContentText(response.body().get("message").getAsString());
+                            dialog.setConfirmText("Ok!");
+                            dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    dialog.dismiss();
+                                }
+                            });
+                        } else {
+                            dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                            dialog.setTitle("Success!");
+                            dialog.setContentText(response.body().get("message").getAsString());
+                            dialog.setConfirmText("Ok!");
+                            dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.TOKEN, response.body().get("token").getAsString());
+                                    AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.LOGGED, true);
+                                    AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.USER_ID, userIdTxt.getText().toString().trim());
+
+                                    String userID = AppPreferences.getInstance(getApplicationContext()).getString(AppPreferences.Key.USER_ID);
+                                    Log.d("TAG_ID", userID + "");
+
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                        }
+
+                        Log.d("TAG_APP", response.body().toString());
+                    } else {
+                        //NULL BODY
+                        dialog.setTitle("Something Went Wrong");
+                        dialog.setConfirmText("Done");
+                        dialog.setConfirmClickListener(null);
+                        dialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        Log.d("TAG_APP", "NULL BODY");
+                    }
+                } else {
+                    //RESPONSE IS NOT SUCCESSFUL
+                    //NULL BODY
+                    dialog.setTitle("Something Went Wrong");
+                    dialog.setConfirmText("Done");
+                    dialog.setConfirmClickListener(null);
+                    dialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    Log.d("TAG_APP", response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                //ON FAILURE
+                Log.d("TAG_APP", t.toString());
+                t.getStackTrace();
             }
         });
     }

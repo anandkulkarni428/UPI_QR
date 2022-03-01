@@ -4,54 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/secondaryColor"
     tools:context=".Activity.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginVertical="20dp"
-            android:src="@drawable/ic_upi" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="UPI QR"
-            android:textColor="@color/teal_700"
-            android:textSize="30dp" />
-
-
-
-        <TextView
-            android:id="@+id/msgtext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="18sp" />
-
-
-        <EditText
-            android:id="@+id/user_id_text"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/rec"
-            android:clickable="false"
-            android:drawableStart="@drawable/ic_baseline_person_pin_24"
-            android:drawablePadding="5dp"
-            android:focusable="false"
-            android:hint="User ID"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="20dp"
+                android:src="@drawable/ic_undraw_welcome_cats" />
+
+        </LinearLayout>
+
+        <com.sinaseyfi.advancedcardview.AdvancedCardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            app:cardBackgroundColor="@color/white"
+            app:cornerRadius_TopLeft="50dp"
+            app:cornerRadius_TopRight="50dp"
+            app:cardElevation="10dp"
+            app:corner_Type="rectangular">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/user_id_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rec"
+                    android:drawableStart="@drawable/ic_id"
+                    android:drawablePadding="5dp"
+                    android:hint="User ID"
             android:inputType="number"
             android:textColorHint="@color/black"
             android:padding="15dp"
@@ -61,10 +66,10 @@
         <EditText
             android:id="@+id/password_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/rec"
-            android:drawableStart="@drawable/ic_baseline_remove_red_eye_24"
+            android:drawableStart="@drawable/ic_my_password"
             android:drawablePadding="5dp"
             android:hint="Password"
             android:inputType="textPassword"
@@ -75,39 +80,44 @@
 
         <Button
             android:id="@+id/login_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:text="Login"
+            android:background="@drawable/btn"
             android:textColor="@color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Use your fingerprint to login"
-            android:textColor="@color/teal_200"
-            android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Use your fingerprint to login"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/biomat_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginVertical="20dp"
-            android:src="@drawable/ic_baseline_fingerprint_24" />
+                <ImageView
+                    android:id="@+id/biomat_img"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="20dp"
+                    android:src="@drawable/ic_baseline_fingerprint_24"
+                    android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/reg_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="end"
-            android:text="New user? Register here!"
-            android:textColor="@color/purple_700"
-            android:layout_marginEnd="10dp"/>
+                <TextView
+                    android:id="@+id/reg_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:text="New user? Register here!"
+                    android:textColor="@color/primaryColor"
+                    android:layout_marginEnd="10dp" />
+            </LinearLayout>
 
+        </com.sinaseyfi.advancedcardview.AdvancedCardView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
