@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <TextView
@@ -29,7 +29,10 @@
                 android:padding="5dp"
                 android:text="0"
                 android:textColor="@color/primaryColor"
-                android:textSize="24sp" />
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:fontFamily="sans-serif-medium" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trans_rec"
@@ -43,7 +46,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/no_trans_img"

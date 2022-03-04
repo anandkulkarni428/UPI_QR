@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -28,11 +27,10 @@ public class QR_Activity extends AppCompatActivity {
     private final int QRcodeWidth = 500;
     private String TOTAL_AMOUNT = "00.0";
     private String UPI_ID = "";
-    private String FIRST_NAME = "";
-    private String LAST_NAME = "";
+    private String MERCH_NAME = "";
     private String TRANS_ID = "";
     ImageView qrImage, shareImage;
-    TextView nameTxt,transTxt;
+    TextView transTxt, upiIdTxt, amountTxt;
     Bitmap shareBitmap;
 
     @Override
@@ -41,31 +39,19 @@ public class QR_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_qr);
 
         qrImage = findViewById(R.id.qr_img);
-        shareImage = findViewById(R.id.share_image);
-        nameTxt = findViewById(R.id.name_txt);
-        transTxt = findViewById(R.id.trans_txt);
+        transTxt = findViewById(R.id.trans_id_text);
+        upiIdTxt = findViewById(R.id.upi_id_text);
+        amountTxt = findViewById(R.id.amount_text);
         TOTAL_AMOUNT = getIntent().getStringExtra("AMOUNT");
         UPI_ID = getIntent().getStringExtra("UPI_ID");
-        FIRST_NAME = getIntent().getStringExtra("FIRST_NAME");
-        LAST_NAME = getIntent().getStringExtra("LAST_NAME");
+        MERCH_NAME = getIntent().getStringExtra("MERCH_NAME");
         TRANS_ID = getIntent().getStringExtra("TRANS_ID");
 
-        nameTxt.setText((FIRST_NAME + " " + LAST_NAME));
-        transTxt.setText((TRANS_ID));
+        transTxt.setText((MERCH_NAME));
+        upiIdTxt.setText((UPI_ID));
+        amountTxt.setText((getResources().getString(R.string.amount_paying, TOTAL_AMOUNT)));
         initViews();
 
-        shareImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-
-                    share_bitMap_to_Apps();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e("TAG", e.getLocalizedMessage());
-                }
-            }
-        });
     }
 
     private final Bitmap textToImageEncode(String Value) {
@@ -101,7 +87,7 @@ public class QR_Activity extends AppCompatActivity {
     private final void initViews() {
         String url = "upi://pay?pa="
                 + UPI_ID + "&am=" + TOTAL_AMOUNT
-                + "&pn=" + FIRST_NAME + "%20" + LAST_NAME +
+                + "&pn=" + MERCH_NAME + "%20" + "" +
                 "&cu=INR" + "&mode=02" + "&orgid=189999" +
                 ""
                 + "Q7lugo8mfJhDk6wIhANZkbXOWWR2lhJOH2Qs/OQRaRFD2oBuPCGtrMaVFR23t";
@@ -144,7 +130,7 @@ public class QR_Activity extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, FIRST_NAME + LAST_NAME + TRANS_ID, null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, MERCH_NAME + TRANS_ID, null);
         return Uri.parse(path);
     }
 }

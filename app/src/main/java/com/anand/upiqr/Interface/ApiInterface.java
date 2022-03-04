@@ -1,5 +1,6 @@
 package com.anand.upiqr.Interface;
 
+import com.anand.upiqr.Pojo.Transactions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -20,6 +21,13 @@ public interface ApiInterface {
     @POST("login")
     Call<JsonObject> loginUser(@Body JsonObject jsonObject);
 
+    @Headers({"Content-Type: application/json"})
+    @POST("transaction")
+    Call<JsonObject> postTransaction(@Body JsonObject jsonObject);
+
     @GET("profile/{id}")
     Call<JsonObject> getProfile(@Path("id") String id);
+
+    @GET("transactions/{id}")
+    Call<Transactions> getTransactions(@Path("id") String id);
 }

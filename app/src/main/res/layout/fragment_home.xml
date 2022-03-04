@@ -38,7 +38,8 @@
                 android:text="Generate a transaction!"
                 android:textColor="@color/primaryColor"
                 android:textSize="30dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
         <com.sinaseyfi.advancedcardview.AdvancedCardView
@@ -148,7 +149,7 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/rec"
                     android:clickable="false"
-                    android:drawableStart="@drawable/ic_name_id"
+                    android:drawableStart="@drawable/ic_undraw_received"
                     android:drawablePadding="5dp"
                     android:hint="Received Form"
                     android:padding="15dp"
@@ -159,7 +160,7 @@
                 <EditText
                     android:id="@+id/notes_text"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/rec"
                     android:clickable="false"

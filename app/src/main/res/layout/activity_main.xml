@@ -116,7 +116,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/rec"
                 android:clickable="false"
-                android:drawableStart="@drawable/ic_receipt_rupee"
+                android:drawableStart="@drawable/ic_undraw_received"
                 android:drawablePadding="5dp"
                 android:hint="Amount"
                 android:inputType="number"

@@ -32,7 +32,7 @@
         android:fillColor="#f5f5f5" />
     <path
         android:pathData="M350,689.76a340,340 0,0 0,187.79 -56.2c-12.59,-68.8 -60.5,-72.72 -60.5,-72.72L213.09,560.84s-45.21,3.71 -59.33,67A340.07,340.07 0,0 0,350 689.76Z"
-        android:fillColor="#ef7c8e" />
+        android:fillColor="@color/primaryColor" />
     <path
         android:pathData="M346.37,339.57m-164.9,0a164.9,164.9 0,1 1,329.8 0a164.9,164.9 0,1 1,-329.8 0"
         android:fillColor="#333" />

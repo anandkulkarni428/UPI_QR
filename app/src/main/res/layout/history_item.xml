@@ -3,71 +3,92 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:backgroundTint="@color/white"
     android:layout_margin="5dp"
-    app:cardElevation="5dp">
+    android:outlineSpotShadowColor="@color/primaryDarkColor"
+    app:cardBackgroundColor="@color/secondaryColor"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    android:id="@+id/root_layout">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="@drawable/rec">
+        android:layout_height="140dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/next_layout"
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:srcCompat="@drawable/ic_next"
-                android:layout_gravity="center" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/rec_card"
             android:orientation="vertical">
+
             <TextView
-                android:id="@+id/trans_txt"
+                android:id="@+id/date_txt"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="22 AUG"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/time_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date_txt"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="06:45AM"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="7"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/amount_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="$ 2503 RS/-"
+                android:textColor="@color/primaryDarkColor"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/trans_id_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_gravity="center"
-                android:text="TextView"
-                android:textColor="@color/teal_700"
-                android:textSize="20sp" />
+                android:text="UPI1234567890123456"
+                android:textColor="@color/blackTrans"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/name_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="TextView"
-                android:textColor="@color/black"
+                android:text="Anand Kulkarni"
+                android:textColor="@color/blackTrans"
                 android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/delete_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                android:layout_gravity="center" />
         </LinearLayout>
 
 

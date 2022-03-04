@@ -121,12 +121,14 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         //MAIN LOGIN
-                        String tocken = response.body().get("token").getAsString();
+                        JsonObject data = response.body().get("data").getAsJsonObject();
+                        JsonObject userDetails = data.get("user_details").getAsJsonObject();
+                        String token = userDetails.get("token").getAsString();
 
-                        if (tocken.isEmpty()) {
+                        if (token.isEmpty()) {
                             dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE);
                             dialog.setTitle("Error!");
-                            dialog.setContentText(response.body().get("message").getAsString());
+                            dialog.setContentText(data.get("message").getAsString());
                             dialog.setConfirmText("Ok!");
                             dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
@@ -137,12 +139,15 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                             dialog.setTitle("Success!");
-                            dialog.setContentText(response.body().get("message").getAsString());
+                            dialog.setContentText(data.get("message").getAsString());
                             dialog.setConfirmText("Ok!");
                             dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.TOKEN, response.body().get("token").getAsString());
+                                    AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.TOKEN, token);
+                                    AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.PRIMARY_UPI, userDetails.get("primary_upi_id").getAsString());
+                                    AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.MERCH_NAME, userDetails.get("merchant_name").getAsString());
+                                    AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.USER_ID, userIdTxt.getText().toString().trim());
                                     AppPreferences.getInstance(getApplicationContext()).put(AppPreferences.Key.LOGGED, true);
 
                                     Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);

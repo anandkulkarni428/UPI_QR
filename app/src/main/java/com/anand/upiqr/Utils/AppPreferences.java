@@ -40,7 +40,7 @@ public class AppPreferences {
         public static final String LOGGED = "user_logged_in";
         public static final String USER_ID = "user_id_details";
         public static final String PRIMARY_UPI = "primary_upi_details";
-        public static final String NOTI_TOKEN = "notification_token";
+        public static final String MERCH_NAME = "merchant_name";
 
     }
 

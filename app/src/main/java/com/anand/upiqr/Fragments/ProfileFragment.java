@@ -17,6 +17,7 @@ import com.anand.upiqr.R;
 import com.anand.upiqr.Utils.AppPreferences;
 import com.anand.upiqr.Utils.ConnectionChecking;
 import com.anand.upiqr.Utils.HttpHelpers;
+import com.anand.upiqr.databinding.FragmentProfileBinding;
 import com.google.gson.JsonObject;
 
 import java.util.Locale;
@@ -30,7 +31,7 @@ import retrofit2.Retrofit;
 
 public class ProfileFragment extends Fragment {
 
-    com.anand.upiqr.databinding.FragmentProfileBinding binding;
+    FragmentProfileBinding binding;
     ApiInterface apiInterface;
     ConnectionChecking checking;
     private String userFirstLetter;
@@ -44,7 +45,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = com.anand.upiqr.databinding.FragmentProfileBinding.inflate(getLayoutInflater());
+        binding = FragmentProfileBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         checking = new ConnectionChecking();
         getProfile();
@@ -54,6 +55,9 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 AppPreferences.getInstance(getActivity()).put(AppPreferences.Key.LOGGED, false);
                 AppPreferences.getInstance(getActivity()).remove(AppPreferences.Key.TOKEN);
+                AppPreferences.getInstance(getActivity()).remove(AppPreferences.Key.USER_ID);
+                AppPreferences.getInstance(getActivity()).remove(AppPreferences.Key.MERCH_NAME);
+                AppPreferences.getInstance(getActivity()).remove(AppPreferences.Key.PRIMARY_UPI);
                 startActivity(new Intent(getActivity(), SplashActivity.class));
                 getActivity().finish();
 

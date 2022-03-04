@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,27 +16,32 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anand.upiqr.Activity.TransactionHistoryActivity;
+import com.anand.upiqr.Pojo.Transaction;
 import com.anand.upiqr.R;
-import com.anand.upiqr.Utils.Transaction;
-import com.anand.upiqr.Utils.TransactionDataBaseHandler;
 import com.anand.upiqr.databinding.HistoryItemBinding;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class TransHistoryAdapter extends RecyclerView.Adapter<TransHistoryAdapter.ViewHolder> {
     Context context;
     List<Transaction> transactionList;
     HistoryItemBinding binding;
-    TransactionDataBaseHandler db;
     Dialog dialog;
+    DateTimeFormatter parser;
+    DateTimeFormatter formatter;
     private final int QRcodeWidth = 500;
     private String TOTAL_AMOUNT = "00.0";
     private String UPI_ID = "";
@@ -46,7 +52,6 @@ public class TransHistoryAdapter extends RecyclerView.Adapter<TransHistoryAdapte
     public TransHistoryAdapter(Context context, List<Transaction> transactionList) {
         this.context = context;
         this.transactionList = transactionList;
-        db = new TransactionDataBaseHandler(context);
     }
 
     @NonNull
@@ -57,22 +62,22 @@ public class TransHistoryAdapter extends RecyclerView.Adapter<TransHistoryAdapte
         return new ViewHolder(binding.getRoot());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull TransHistoryAdapter.ViewHolder holder, int position) {
-
-        UPI_ID = transactionList.get(position).getUpiId();
-        TOTAL_AMOUNT = transactionList.get(position).getAmount();
-        FIRST_NAME = transactionList.get(position).getFirstName();
-        LAST_NAME = transactionList.get(position).getLastName();
-
-        holder.nameTxt.setText((FIRST_NAME + " " + LAST_NAME));
+//        final JsonObject object = transactionList.getAsJsonArray().get(position).getAsJsonObject();
+        holder.nameTxt.setText(transactionList.get(position).getTransactedTo());
         holder.transTxt.setText(transactionList.get(position).getTransactionId());
-        holder.deleteBtn.setOnClickListener(view -> {
-            db.deleteTransaction(transactionList.get(position));
-            TransactionHistoryActivity.transCountTXT.setText(String.valueOf(db.getTransactionCount()));
-            notifyItemRangeChanged(0, transactionList.size());
-            Log.d("TAG", "onBindViewHolder: delete item");
-        });
+        String dateString = transactionList.get(position).getTransactionDate();
+        String timeString = transactionList.get(position).getTransactionTime();
+        parser = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatter = DateTimeFormatter.ofPattern("dd MMM", Locale.ENGLISH);
+        holder.dateTxt.setText(formatter.format(parser.parse(dateString)));
+        parser = DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSS");
+        formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH);
+        holder.timeTxt.setText(formatter.format(parser.parse(timeString)));
+        holder.amountTxt.setText(context.getResources().getString(R.string.amount_lbl, transactionList.get(position).getAmount()));
+
 
         dialog = new Dialog(context);
         dialog.setTitle("User Info");
@@ -96,14 +101,13 @@ public class TransHistoryAdapter extends RecyclerView.Adapter<TransHistoryAdapte
             }
         });
 
-        nameTxt.setText((FIRST_NAME + " " + LAST_NAME));
-        transTxt.setText(transactionList.get(position).getTransactionId());
-        upiTxt.setText(UPI_ID);
-        amountTxt.setText(TOTAL_AMOUNT);
+        nameTxt.setText((transactionList.get(position).getTransactedTo()));
+        upiTxt.setText(transactionList.get(position).getPrimaryUpiId());
+        amountTxt.setText(transactionList.get(position).getAmount());
 
         String url = "upi://pay?pa="
-                + UPI_ID + "&am=" + TOTAL_AMOUNT
-                + "&pn=" + FIRST_NAME + "%20" + LAST_NAME +
+                + transactionList.get(position).getPrimaryUpiId() + "&am=" + transactionList.get(position).getAmount()
+                + "&pn=" + transactionList.get(position).getMerchantName() + "%20" + "" +
                 "&cu=INR" + "&mode=02" + "&orgid=189999" +
                 ""
                 + "Q7lugo8mfJhDk6wIhANZkbXOWWR2lhJOH2Qs/OQRaRFD2oBuPCGtrMaVFR23t";
@@ -116,26 +120,30 @@ public class TransHistoryAdapter extends RecyclerView.Adapter<TransHistoryAdapte
 
         qrImage.invalidate();
 
-        holder.nextBtn.setOnClickListener(view -> {
-            dialog.show();
-        });
+//        holder.rootLayout.setOnClickListener(view -> {
+//            dialog.show();
+//        });
     }
 
     @Override
     public int getItemCount() {
+        Log.d("TAG_SIZE", transactionList.size() + "");
         return transactionList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTxt, transTxt;
+        TextView nameTxt, transTxt, amountTxt, dateTxt, timeTxt;
         LinearLayout deleteBtn, nextBtn;
+        CardView rootLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTxt = itemView.findViewById(R.id.name_txt);
-            transTxt = itemView.findViewById(R.id.trans_txt);
-            deleteBtn = itemView.findViewById(R.id.delete_layout);
-            nextBtn = itemView.findViewById(R.id.next_layout);
+            transTxt = itemView.findViewById(R.id.trans_id_txt);
+            amountTxt = itemView.findViewById(R.id.amount_txt);
+            dateTxt = itemView.findViewById(R.id.date_txt);
+            timeTxt = itemView.findViewById(R.id.time_txt);
+            rootLayout = itemView.findViewById(R.id.root_layout);
         }
     }
 

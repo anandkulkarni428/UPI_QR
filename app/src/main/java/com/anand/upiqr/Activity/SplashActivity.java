@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
         checking = new ConnectionChecking();
         videoView = findViewById(R.id.videoView);
         if (checking.isConnectingToInternet(SplashActivity.this)) {
-            StringBuilder stringBuilder = new StringBuilder().append("android.resource://").append(getPackageName()).append("/").append(R.raw.splash);
+            StringBuilder stringBuilder = new StringBuilder().append("android.resource://").append(getPackageName()).append("/").append(R.raw.splash_new);
 
             videoView.setVideoURI(Uri.parse(stringBuilder.toString()));
             videoView.start();

@@ -172,7 +172,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_receipt_rupee" />
+                app:srcCompat="@drawable/ic_undraw_received" />
 
 
             <LinearLayout
