@@ -39,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     ApiInterface apiInterface;
     ConnectionChecking checking;
+    String passRegex = ".*[\\^\\`\\~\\<\\,\\>\\\"\\'\\}\\{\\]\\[\\|\\)\\(\\;\\&\\*\\$\\%\\#\\@\\!\\:\\.\\/\\?\\\\\\+\\=\\-\\_\\ ].*";
+    String upiIDRegex = "^[\\w.-]+@[\\w.-]+$";
 
 
     @Override
@@ -70,22 +72,22 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checking.isConnectingToInternet(RegisterActivity.this)) {
 
-//                    if (validation.validate()) {
+                    if (validateData()) {
 
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("fullname", firstNameTxt.getText().toString().trim());
-                        jsonObject.put("merchant_name", merchantNametxt.getText().toString().trim());
-                        jsonObject.put("primary_upi_id", upiIdTxt.getText().toString().trim());
-                        jsonObject.put("user_id", userIdTxt.getText().toString().trim());
-                        jsonObject.put("password", passwordTxt.getText().toString().trim());
-                        jsonObject.put("finger_auth", "false");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("fullname", firstNameTxt.getText().toString().trim());
+                            jsonObject.put("merchant_name", merchantNametxt.getText().toString().trim());
+                            jsonObject.put("primary_upi_id", upiIdTxt.getText().toString().trim());
+                            jsonObject.put("user_id", userIdTxt.getText().toString().trim());
+                            jsonObject.put("password", passwordTxt.getText().toString().trim());
+                            jsonObject.put("finger_auth", "false");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        registerUser(jsonObject);
                     }
-
-                    registerUser(jsonObject);
-//                    }
 
                 } else {
                     SweetAlertDialog dialog = new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
@@ -99,6 +101,39 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean validateData() {
+
+        if (firstNameTxt.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter your full name", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (merchantNametxt.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter your business name", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (upiIdTxt.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter your upi id", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (upiIdTxt.getText().toString().matches(upiIDRegex)) {
+            Toast.makeText(this, "Please enter valid upi id", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (userIdTxt.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter your user id", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (userIdTxt.getText().toString().length() != 10) {
+            Toast.makeText(this, "Please enter valid user id", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (passwordTxt.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (passwordTxt.getText().toString().matches(passRegex)) {
+            Toast.makeText(this, "Please enter your password with at least one capital letter or one special char", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (passwordTxt.getText().toString().length() < 8 && passwordTxt.getText().toString().length() > 12) {
+            Toast.makeText(this, "Please enter password between 8 to 12 chars", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
 

@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(new Intent(getActivity(), SplashActivity.class));
                 getActivity().finish();
 
-                Toast.makeText(getContext(), "LogOut", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
             }
         });
         return view;

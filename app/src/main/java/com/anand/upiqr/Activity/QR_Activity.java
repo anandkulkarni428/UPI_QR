@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.anand.upiqr.R;
@@ -32,6 +33,7 @@ public class QR_Activity extends AppCompatActivity {
     ImageView qrImage, shareImage;
     TextView transTxt, upiIdTxt, amountTxt;
     Bitmap shareBitmap;
+    LinearLayout view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class QR_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_qr);
 
         qrImage = findViewById(R.id.qr_img);
+        shareImage = findViewById(R.id.share_img);
         transTxt = findViewById(R.id.trans_id_text);
         upiIdTxt = findViewById(R.id.upi_id_text);
         amountTxt = findViewById(R.id.amount_text);
@@ -51,6 +54,14 @@ public class QR_Activity extends AppCompatActivity {
         upiIdTxt.setText((UPI_ID));
         amountTxt.setText((getResources().getString(R.string.amount_paying, TOTAL_AMOUNT)));
         initViews();
+        generateBitmap();
+
+        shareImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                share_bitMap_to_Apps();
+            }
+        });
 
     }
 
@@ -80,7 +91,7 @@ public class QR_Activity extends AppCompatActivity {
 
         Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
         bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
-        shareBitmap = bitmap;
+//        shareBitmap = bitmap;
         return bitmap;
     }
 
@@ -115,7 +126,7 @@ public class QR_Activity extends AppCompatActivity {
 
         i.putExtra(Intent.EXTRA_STREAM, getImageUri(this, shareBitmap));
         i.putExtra(android.content.Intent.EXTRA_SUBJECT, "Payment");
-        i.putExtra(android.content.Intent.EXTRA_TEXT, TRANS_ID+"\nHi scan this to complete your payment.");
+        i.putExtra(android.content.Intent.EXTRA_TEXT, "\nHi! " + MERCH_NAME + " has shared this qr of amount : " + TOTAL_AMOUNT + "/- RS \nScan this to complete your payment.");
         try {
             startActivity(Intent.createChooser(i, "My QR ..."));
         } catch (android.content.ActivityNotFoundException ex) {
@@ -132,6 +143,27 @@ public class QR_Activity extends AppCompatActivity {
 
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, MERCH_NAME + TRANS_ID, null);
         return Uri.parse(path);
+    }
+
+    public void generateBitmap() {
+        view = (LinearLayout) findViewById(R.id.screen);
+
+        view.setDrawingCacheEnabled(true);
+        // this is the important code :)
+        // Without it the view will have a dimension of 0,0 and the bitmap will be null
+
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        view.buildDrawingCache(true);
+        Bitmap b = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false); // clear drawing cache
+//        Bitmap.createScaledBitmap(b,400,2000,false);
+
+        shareBitmap = b;
+
     }
 }
 

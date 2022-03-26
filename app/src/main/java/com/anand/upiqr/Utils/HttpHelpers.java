@@ -7,9 +7,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpHelpers {
-    public final static String BASE_IMG_URL = "http://172.105.42.19/";
-    private static String BASE_URL = "https://upi-qr-generator2.herokuapp.com/";
-//    private static String BASE_URL = "http://172.105.42.19/api/";
+//    public final static String BASE_IMG_URL = "http://172.105.42.19/";
+public final static String BASE_URL = "https://upi-qr-generator2.herokuapp.com/";
+    //    private static String BASE_URL = "http://172.105.42.19/api/";
     private static Retrofit retrofit;
     private static Gson gson;
 

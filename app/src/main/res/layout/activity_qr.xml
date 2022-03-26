@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,7 @@
     tools:context=".Activity.QR_Activity">
 
     <LinearLayout
+        android:id="@+id/screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/primaryColor"
@@ -18,7 +19,7 @@
         <LinearLayout
             android:id="@+id/title_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="3"
             android:gravity="center"
             android:orientation="vertical"
@@ -29,44 +30,44 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_gravity="bottom"
+                android:layout_marginBottom="20dp"
                 android:gravity="bottom"
-                android:layout_marginBottom="20dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/amount_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:text="8639829512"
                     android:textColor="@color/secondaryColor"
-                    android:textSize="48dp"
-                    android:layout_margin="5dp"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textSize="48dp" />
 
                 <TextView
                     android:id="@+id/trans_id_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="5dp"
                     android:gravity="center"
                     android:text="8639829512"
                     android:textColor="@color/secondaryColor"
-                    android:textSize="24sp"
-                    android:layout_margin="5dp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/upi_id_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="5dp"
                     android:gravity="center"
                     android:text="8639829512"
                     android:textColor="@color/secondaryColor"
-                    android:textSize="18sp"
-                    android:layout_margin="5dp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -74,7 +75,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="7"
             app:cardBackgroundColor="@color/white"
             app:cardElevation="10dp"
@@ -89,9 +90,9 @@
                 <ImageView
                     android:id="@+id/qr_img"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="9.5"
+                    android:layout_height="match_parent"
                     android:layout_margin="10dp"
+                    android:layout_weight="9.5"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -101,14 +102,13 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="5dp"
                     android:gravity="center"
                     android:text="Generated using UPI QR"
                     android:textColor="@color/primaryDarkColor"
-                    android:textSize="18sp"
-                    android:layout_margin="5dp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -116,5 +116,17 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/share_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_share_round_line" />
 
-</LinearLayout>
+
+</RelativeLayout>

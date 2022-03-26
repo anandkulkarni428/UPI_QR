@@ -2,24 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:title="Home"
+        android:title="@string/lbl_home"
         android:enabled="true"
         android:icon="@drawable/ic_undraw_home" />
     <item
         android:id="@+id/history"
-        android:title="History"
+        android:title="@string/lbl_history"
         android:enabled="true"
         android:icon="@drawable/ic_undraw_history" />
 
     <item
         android:id="@+id/profile"
-        android:title="Profile"
+        android:title="@string/lbl_profile"
         android:enabled="true"
         android:icon="@drawable/ic_undraw_profile" />
 
     <item
         android:id="@+id/about_me"
-        android:title="About me"
+        android:title="@string/lbl_about_us"
         android:enabled="true"
         android:icon="@drawable/ic_undraw_development" />
 

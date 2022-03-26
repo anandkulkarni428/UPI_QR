@@ -137,6 +137,7 @@
                     android:drawableStart="@drawable/ic_upi"
                     android:drawablePadding="5dp"
                     android:hint="UPI ID"
+                    android:focusable="false"
                     android:padding="15dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black" />

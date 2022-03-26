@@ -19,8 +19,8 @@
             android:layout_height="32dp"
             android:src="@drawable/ic_baseline_logout"
             android:layout_gravity="end"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp" />
 
         <LinearLayout
             android:id="@+id/title_layout"
@@ -37,7 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="AK"
                 android:textColor="@color/white"
                 android:textSize="150dp"
                 android:fontFamily="sans-serif-medium" />
@@ -95,7 +94,6 @@
                             android:id="@+id/name_txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TextView"
                             android:textColor="@color/blackTrans"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -136,7 +134,6 @@
                             android:id="@+id/user_id_txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TextView"
                             android:textColor="@color/blackTrans"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -177,7 +174,6 @@
                             android:id="@+id/business_name_txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TextView"
                             android:textColor="@color/blackTrans"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -218,7 +214,6 @@
                             android:id="@+id/primary_upi_txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TextView"
                             android:textColor="@color/blackTrans"
                             android:textSize="18sp" />
                     </LinearLayout>

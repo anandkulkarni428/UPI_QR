@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
     ApiInterface apiInterface;
     ConnectionChecking checking;
+    String passRegex = "[><?@+'`~^%&\\*\\[\\]\\{\\}.!#|\\\\\\\"$';,:;=/\\(\\),\\-\\w+]*";
 
 
     @Override
@@ -92,13 +93,13 @@ public class LoginActivity extends AppCompatActivity {
 
             // this means that biometric sensor is not available
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-                msgtex.setText("The biometric sensor is currently unavailable");
+//                msgtex.setText("The biometric sensor is currently unavailable");
 //                loginbutton.setVisibility(View.GONE);
                 break;
 
             // this means that the device doesn't contain your fingerprint
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                msgtex.setText("Your device doesn't have fingerprint saved,please check your security settings");
+//                msgtex.setText("Your device doesn't have fingerprint saved,please check your security settings");
 //                loginbutton.setVisibility(View.GONE);
                 break;
         }
@@ -108,18 +109,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checking.isConnectingToInternet(LoginActivity.this)) {
 
-//                    if (validation.validate()) {
+                    if (validateData()) {
 
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("user_id", userIdTxt.getText().toString().trim());
-                        jsonObject.put("password", passwordTxt.getText().toString().trim());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("user_id", userIdTxt.getText().toString().trim());
+                            jsonObject.put("password", passwordTxt.getText().toString().trim());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        loginUser(jsonObject);
                     }
-
-                    loginUser(jsonObject);
-//                    }
 
                 } else {
                     SweetAlertDialog dialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
@@ -141,6 +142,23 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private boolean validateData() {
+        if (userIdTxt.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter your user id", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (userIdTxt.getText().toString().length() != 10) {
+            Toast.makeText(this, "Please enter valid user id", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (passwordTxt.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (passwordTxt.getText().toString().length() < 8 && passwordTxt.getText().toString().length() > 12) {
+            Toast.makeText(this, "Please enter password between 8 to 12 chars", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void loginUser(JSONObject userData) {

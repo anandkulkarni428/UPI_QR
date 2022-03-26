@@ -12,4 +12,8 @@
     <string name="upi_qr">UPIQR</string>
     <string name="amount_lbl">\u20B9 %1$s /-</string>
     <string name="amount_paying">Paying \u20B9 %1$s /-</string>
+    <string name="lbl_home">Home</string>
+    <string name="lbl_history">History</string>
+    <string name="lbl_profile">Profile</string>
+    <string name="lbl_about_us">About us</string>
 </resources>

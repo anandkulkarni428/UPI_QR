@@ -79,22 +79,22 @@ public class HomeFragment extends Fragment {
                     MERCH_NAME = AppPreferences.getInstance(getActivity()).getString(AppPreferences.Key.MERCH_NAME);
                     Log.d("TAG_ID", userID + ":" + MERCH_NAME);
 
-//                    if (validation.validate()) {
+                    if (validateData()) {
 
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("transacted_to", binding.receivedFormText.getText().toString().trim());
-                        jsonObject.put("notes", binding.notesText.getText().toString().trim());
-                        jsonObject.put("primary_upi_id", UPI_ID);
-                        jsonObject.put("user_id", userID);
-                        jsonObject.put("amount", AMOUNT);
-                        jsonObject.put("merchant_name", MERCH_NAME);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("transacted_to", binding.receivedFormText.getText().toString().trim());
+                            jsonObject.put("notes", binding.notesText.getText().toString().trim());
+                            jsonObject.put("primary_upi_id", UPI_ID);
+                            jsonObject.put("user_id", userID);
+                            jsonObject.put("amount", AMOUNT);
+                            jsonObject.put("merchant_name", MERCH_NAME);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        postTransaction(jsonObject);
                     }
-
-                    postTransaction(jsonObject);
-//                    }
 
                 } else {
                     SweetAlertDialog dialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
@@ -171,5 +171,29 @@ public class HomeFragment extends Fragment {
                 t.getStackTrace();
             }
         });
+    }
+
+    public boolean validateData() {
+        if (binding.amountText.getText().toString().isEmpty()) {
+            Toast.makeText(getActivity(), "Please enter amount", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (binding.amountText.getText().toString().length() > 6 && binding.amountText.getText().toString().length() < 0) {
+            Toast.makeText(getActivity(), "Please enter amount between 1 to 100000/- only", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (binding.receivedFormText.getText().toString().isEmpty()) {
+            Toast.makeText(getActivity(), "Please enter received from", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.amountText.setText("");
+        binding.receivedFormText.setText("");
+        binding.notesText.setText("");
     }
 }
